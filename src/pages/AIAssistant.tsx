@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -7,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { toast } from "@/hooks/use-toast";
-import { Upload, FilePlus, FileText, Brain, MessageSquare, Book, FlashIcon, HelpCircle } from "lucide-react";
+import { Upload, FilePlus, FileText, Brain, MessageSquare, Book, Zap, HelpCircle } from "lucide-react";
 
 const AIAssistant = () => {
   const [question, setQuestion] = useState("");
@@ -69,7 +68,7 @@ const AIAssistant = () => {
             Documents
           </TabsTrigger>
           <TabsTrigger value="flashcards">
-            <FlashIcon className="mr-2 h-4 w-4" />
+            <Zap className="mr-2 h-4 w-4" />
             Flashcards
           </TabsTrigger>
           <TabsTrigger value="quizzes">
@@ -203,7 +202,7 @@ const AIAssistant = () => {
             </CardHeader>
             <CardContent className="flex items-center justify-center h-[400px]">
               <div className="text-center">
-                <FlashIcon className="h-16 w-16 mx-auto text-gray-400" />
+                <Zap className="h-16 w-16 mx-auto text-gray-400" />
                 <h3 className="text-lg font-medium mt-4">No Flashcards Yet</h3>
                 <p className="text-sm text-gray-500 mt-2">Upload study materials and generate flashcards</p>
                 <Button className="mt-4" onClick={uploadDocument}>Upload Materials</Button>
