@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,10 +8,12 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { toast } from "@/hooks/use-toast";
 import { Upload, FilePlus, FileText, Brain, MessageSquare, Book, Zap, HelpCircle } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const AIAssistant = () => {
   const [question, setQuestion] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isThinking, setIsThinking] = useState(false);
   const [conversations, setConversations] = useState([
     { id: 1, question: "Explain the Krebs cycle in simple terms", answer: "The Krebs cycle is a series of chemical reactions that helps generate energy in cells. It's like a molecular merry-go-round that takes the breakdown products from sugars, fats, and proteins and converts them into energy." },
     { id: 2, question: "What are the key components of a transformer architecture?", answer: "A transformer architecture consists of an encoder and decoder, both containing self-attention mechanisms. Key components include multi-head attention, feed-forward networks, positional encoding, and layer normalization." }
@@ -21,25 +24,86 @@ const AIAssistant = () => {
     { id: 2, name: "Calculus Notes.pdf", pages: 78, date: "2023-05-15" },
   ]);
 
-  const askQuestion = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (question.trim()) {
-      setIsLoading(true);
-      
-      // Simulate AI response delay
-      setTimeout(() => {
-        setConversations([...conversations, {
-          id: conversations.length + 1,
-          question,
-          answer: "I'm analyzing your question about " + question + ". This would be a detailed response from the AI addressing the specific points in your question with relevant information from your study materials."
-        }]);
-        setQuestion("");
+  // AI response chunks simulation
+  const [currentAnswer, setCurrentAnswer] = useState("");
+  const [activeConversationId, setActiveConversationId] = useState<number | null>(null);
+
+  // Generate LLM response in chunks to simulate streaming
+  const generateStreamingResponse = (prompt: string, responseId: number) => {
+    const responses = {
+      "chemistry": "I analyzed your chemistry question. Based on the organic chemistry textbook you uploaded, here's what I found: Chemistry involves the study of matter, its properties, and the changes it undergoes. The field specifically examines the structure of atoms and molecules, and how they interact through chemical bonds to form new substances. Key concepts include understanding elements, compounds, reactions, and the energy transformations that occur during chemical processes.",
+      "math": "According to your calculus notes, the mathematical concept you're asking about relates to differential equations. These equations express relationships involving functions and their derivatives. In calculus, derivatives represent rates of change, while integrals represent accumulation. Understanding these concepts is fundamental to solving complex problems in physics, engineering, and many scientific fields.",
+      "physics": "The physics principle you're asking about involves the conservation of energy, which states that energy cannot be created or destroyed, only transformed from one form to another. This is one of the fundamental laws of physics and applies to all closed systems. Your study materials cover how this principle is applied in various contexts, from simple mechanical systems to complex thermodynamic processes.",
+      "default": "I'm analyzing your question about \"" + prompt + "\". Based on your study materials, I can see several relevant concepts that address this topic. The key points to understand are the fundamental principles, how they interact with related concepts, and practical applications in real-world scenarios. Would you like me to elaborate on any specific aspect of this topic in more detail?"
+    };
+
+    // Determine which response to use based on keywords in the prompt
+    let responseText = "";
+    if (prompt.toLowerCase().includes("chemistry") || prompt.toLowerCase().includes("molecule") || prompt.toLowerCase().includes("atom")) {
+      responseText = responses.chemistry;
+    } else if (prompt.toLowerCase().includes("math") || prompt.toLowerCase().includes("calculus") || prompt.toLowerCase().includes("equation")) {
+      responseText = responses.math;
+    } else if (prompt.toLowerCase().includes("physics") || prompt.toLowerCase().includes("energy") || prompt.toLowerCase().includes("force")) {
+      responseText = responses.physics;
+    } else {
+      responseText = responses.default;
+    }
+
+    setActiveConversationId(responseId);
+    setCurrentAnswer("");
+    
+    // Simulate streaming text response
+    let index = 0;
+    const interval = setInterval(() => {
+      if (index < responseText.length) {
+        setCurrentAnswer(prev => prev + responseText.charAt(index));
+        index++;
+      } else {
+        clearInterval(interval);
+        setIsThinking(false);
         setIsLoading(false);
+        
+        // Save the complete answer to conversations
+        setConversations(prev => 
+          prev.map(conv => 
+            conv.id === responseId 
+              ? {...conv, answer: responseText} 
+              : conv
+          )
+        );
+        
+        setActiveConversationId(null);
+        
         toast({
           title: "Answer Generated",
           description: "The AI has answered your question",
         });
-      }, 1500);
+      }
+    }, 15); // Adjust speed here - lower = faster
+  };
+
+  const askQuestion = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (question.trim()) {
+      setIsLoading(true);
+      setIsThinking(true);
+      
+      // Create new conversation with empty answer
+      const newConversationId = conversations.length + 1;
+      setConversations([...conversations, {
+        id: newConversationId,
+        question,
+        answer: ""
+      }]);
+      
+      // Reset question input
+      setQuestion("");
+      
+      // Start generating response after a brief delay
+      setTimeout(() => {
+        setIsThinking(false);
+        generateStreamingResponse(question, newConversationId);
+      }, 800);
     }
   };
 
@@ -94,6 +158,7 @@ const AIAssistant = () => {
                         placeholder="Ask any question about your study material..."
                         value={question}
                         onChange={(e) => setQuestion(e.target.value)}
+                        disabled={isLoading}
                       />
                     </div>
                     <Button type="submit" disabled={isLoading}>
@@ -119,7 +184,21 @@ const AIAssistant = () => {
                         <Avatar className="h-6 w-6 mr-2 bg-purple-100">
                           <AvatarFallback>AI</AvatarFallback>
                         </Avatar>
-                        <div>{conversation.answer}</div>
+                        <div>
+                          {activeConversationId === conversation.id ? (
+                            <>
+                              {isThinking ? (
+                                <div className="flex items-center space-x-2">
+                                  <div className="animate-pulse bg-purple-100 h-2 w-2 rounded-full"></div>
+                                  <div className="animate-pulse bg-purple-200 h-2 w-2 rounded-full" style={{ animationDelay: "0.2s" }}></div>
+                                  <div className="animate-pulse bg-purple-300 h-2 w-2 rounded-full" style={{ animationDelay: "0.4s" }}></div>
+                                </div>
+                              ) : currentAnswer}
+                            </>
+                          ) : (
+                            conversation.answer
+                          )}
+                        </div>
                       </div>
                     </CardContent>
                   </Card>
