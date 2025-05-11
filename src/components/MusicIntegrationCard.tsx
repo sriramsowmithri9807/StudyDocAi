@@ -3,7 +3,7 @@ import React from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/sonner";
-import { Music, Spotify, Apple } from "lucide-react";
+import { Music, Apple } from "lucide-react";
 
 interface MusicIntegrationCardProps {
   provider: "Spotify" | "Apple Music";
@@ -32,7 +32,7 @@ const MusicIntegrationCard: React.FC<MusicIntegrationCardProps> = ({
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center">
             {provider === "Spotify" ? (
-              <Spotify className="mr-2 h-5 w-5 text-green-500" />
+              <Music className="mr-2 h-5 w-5 text-green-500" />
             ) : (
               <Apple className="mr-2 h-5 w-5" />
             )}

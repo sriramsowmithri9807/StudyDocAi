@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { Play, Pause, SkipForward, SkipBack, Volume2, Music, Spotify, Apple } from "lucide-react";
+import { Play, Pause, SkipForward, SkipBack, Volume2, Music, Apple } from "lucide-react";
 
 interface MusicPlayerProps {
   className?: string;
@@ -25,7 +25,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className }) => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               {provider === "spotify" ? (
-                <Spotify className="h-5 w-5 text-green-500" />
+                <Music className="h-5 w-5 text-green-500" />
               ) : (
                 <Apple className="h-5 w-5" />
               )}
@@ -33,7 +33,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ className }) => {
             </div>
             <ToggleGroup type="single" value={provider} onValueChange={(val) => val && setProvider(val as "spotify" | "apple")}>
               <ToggleGroupItem value="spotify">
-                <Spotify className="h-4 w-4" />
+                <Music className="h-4 w-4" />
               </ToggleGroupItem>
               <ToggleGroupItem value="apple">
                 <Apple className="h-4 w-4" />
