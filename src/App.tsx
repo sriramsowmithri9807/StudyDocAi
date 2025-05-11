@@ -12,8 +12,31 @@ import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import Layout from "./components/Layout";
+import TeddyAIChat from "./components/TeddyAIChat";
+import { motion, AnimatePresence } from "framer-motion";
 
 const queryClient = new QueryClient();
+
+const pageVariants = {
+  initial: {
+    opacity: 0,
+    y: 20,
+  },
+  in: {
+    opacity: 1,
+    y: 0,
+  },
+  out: {
+    opacity: 0,
+    y: -20,
+  }
+};
+
+const pageTransition = {
+  type: "tween",
+  ease: "anticipate",
+  duration: 0.5
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -21,16 +44,89 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout><Index /></Layout>} />
-          <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
-          <Route path="/study-room/:roomId" element={<Layout><StudyRoom /></Layout>} />
-          <Route path="/ai-assistant" element={<Layout><AIAssistant /></Layout>} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/profile" element={<Layout><Profile /></Layout>} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AnimatePresence mode="wait">
+          <Routes>
+            <Route path="/" element={
+              <Layout>
+                <motion.div
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}
+                >
+                  <Index />
+                </motion.div>
+              </Layout>
+            } />
+            <Route path="/dashboard" element={
+              <Layout>
+                <motion.div
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}
+                >
+                  <Dashboard />
+                </motion.div>
+              </Layout>
+            } />
+            <Route path="/study-room/:roomId" element={
+              <Layout>
+                <motion.div
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}
+                >
+                  <StudyRoom />
+                </motion.div>
+              </Layout>
+            } />
+            <Route path="/ai-assistant" element={
+              <Layout>
+                <motion.div
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}
+                >
+                  <AIAssistant />
+                </motion.div>
+              </Layout>
+            } />
+            <Route path="/login" element={
+              <motion.div
+                initial="initial"
+                animate="in"
+                exit="out"
+                variants={pageVariants}
+                transition={pageTransition}
+              >
+                <Login />
+              </motion.div>
+            } />
+            <Route path="/profile" element={
+              <Layout>
+                <motion.div
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}
+                >
+                  <Profile />
+                </motion.div>
+              </Layout>
+            } />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AnimatePresence>
+        <TeddyAIChat />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
