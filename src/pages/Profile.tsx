@@ -8,8 +8,9 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "@/components/ui/sonner";
-import { User, Music, Bell, Settings, LogOut } from "lucide-react";
+import { User, Music, Bell, Settings, LogOut, Palette } from "lucide-react";
 import MusicIntegrationCard from "@/components/MusicIntegrationCard";
+import ThemeSelector from "@/components/ThemeSelector";
 
 const Profile = () => {
   const [user, setUser] = useState({
@@ -57,7 +58,7 @@ const Profile = () => {
 
         <div className="md:col-span-2">
           <Tabs defaultValue="account">
-            <TabsList className="grid grid-cols-4 mb-4">
+            <TabsList className="grid grid-cols-5 mb-4">
               <TabsTrigger value="account">
                 <User className="mr-2 h-4 w-4" />
                 Account
@@ -65,6 +66,10 @@ const Profile = () => {
               <TabsTrigger value="music">
                 <Music className="mr-2 h-4 w-4" />
                 Music
+              </TabsTrigger>
+              <TabsTrigger value="themes">
+                <Palette className="mr-2 h-4 w-4" />
+                Themes
               </TabsTrigger>
               <TabsTrigger value="notifications">
                 <Bell className="mr-2 h-4 w-4" />
@@ -122,6 +127,18 @@ const Profile = () => {
                   description="Connect to listen to your Apple Music playlists while studying"
                 />
               </div>
+            </TabsContent>
+            
+            <TabsContent value="themes">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Theme Customization</CardTitle>
+                  <CardDescription>Create and manage your custom themes</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ThemeSelector />
+                </CardContent>
+              </Card>
             </TabsContent>
 
             <TabsContent value="notifications">
