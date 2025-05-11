@@ -1,14 +1,17 @@
 
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { Calendar, Clock, Book, Users, UserCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 type LayoutProps = {
   children: React.ReactNode;
 };
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen flex flex-col">
       <header className="border-b">
@@ -43,13 +46,16 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 </Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <div className={navigationMenuTriggerStyle()}>
-                  <UserCircle className="mr-2 h-4 w-4" />
-                  Profile
-                </div>
+                <Link to="/profile">
+                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    <UserCircle className="mr-2 h-4 w-4" />
+                    Profile
+                  </NavigationMenuLink>
+                </Link>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
+          <Button variant="outline" onClick={() => navigate("/login")}>Login</Button>
         </div>
       </header>
       <main className="flex-1 container mx-auto px-4 py-6">

@@ -1,210 +1,220 @@
 
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { toast } from "@/hooks/use-toast";
-import { Mic, MicOff, Video, VideoOff, Share, Users, MessageSquare, ScreenShare } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/components/ui/sonner";
+import { Users, Video, MessageSquare, Mic, ScreenShare, PhoneOff } from "lucide-react";
+import MusicPlayer from "@/components/MusicPlayer";
 
 const StudyRoom = () => {
-  const { roomId } = useParams();
-  const [isMicOn, setIsMicOn] = useState(false);
-  const [isVideoOn, setIsVideoOn] = useState(false);
-  const [isSharing, setIsSharing] = useState(false);
+  const { roomId } = useParams<{ roomId: string }>();
   const [message, setMessage] = useState("");
-  const [participants] = useState([
-    { id: 1, name: "Jane Cooper", active: true },
-    { id: 2, name: "Alex Brown", active: true },
-    { id: 3, name: "Emma Wilson", active: false }
-  ]);
-  const [messages, setMessages] = useState([
-    { id: 1, sender: "Jane Cooper", text: "Has anyone solved problem 3.4 yet?", time: "11:45 AM" },
-    { id: 2, sender: "Alex Brown", text: "I'm working on it, give me a few minutes", time: "11:47 AM" }
-  ]);
+  const [isInCall, setIsInCall] = useState(false);
 
-  const toggleMic = () => {
-    setIsMicOn(!isMicOn);
-    toast({
-      title: isMicOn ? "Microphone Off" : "Microphone On",
-      description: isMicOn ? "Your microphone has been turned off" : "Your microphone has been turned on",
-    });
-  };
-
-  const toggleVideo = () => {
-    setIsVideoOn(!isVideoOn);
-    toast({
-      title: isVideoOn ? "Video Off" : "Video On",
-      description: isVideoOn ? "Your camera has been turned off" : "Your camera has been turned on",
-    });
-  };
-
-  const toggleScreenShare = () => {
-    setIsSharing(!isSharing);
-    toast({
-      title: isSharing ? "Stopped Sharing" : "Started Sharing",
-      description: isSharing ? "You've stopped sharing your screen" : "You're now sharing your screen",
-    });
-  };
-
-  const sendMessage = (e: React.FormEvent) => {
+  const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
     if (message.trim()) {
-      setMessages([...messages, {
-        id: messages.length + 1,
-        sender: "You",
-        text: message,
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      }]);
+      toast.success("Message sent!");
       setMessage("");
     }
   };
 
+  const toggleCall = () => {
+    setIsInCall(!isInCall);
+    if (!isInCall) {
+      toast.success("Joined voice chat!");
+    } else {
+      toast("Left voice chat");
+    }
+  };
+
+  // Mock data
+  const participants = [
+    { id: 1, name: "Jane Cooper", avatar: "https://i.pravatar.cc/150?img=1", status: "active", role: "Host" },
+    { id: 2, name: "Alex Smith", avatar: "https://i.pravatar.cc/150?img=2", status: "active", role: "Member" },
+    { id: 3, name: "Michael Brown", avatar: "https://i.pravatar.cc/150?img=3", status: "away", role: "Member" },
+  ];
+
+  const messages = [
+    { id: 1, user: "Jane Cooper", message: "Hi everyone! Ready to study Organic Chemistry?", time: "10:30 AM", avatar: "https://i.pravatar.cc/150?img=1" },
+    { id: 2, user: "Alex Smith", message: "Yes, I've been struggling with the reaction mechanisms.", time: "10:32 AM", avatar: "https://i.pravatar.cc/150?img=2" },
+    { id: 3, user: "You", message: "I can help with that. Let's start with the basics.", time: "10:33 AM", avatar: "https://i.pravatar.cc/150?img=8" },
+  ];
+
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
+    <div className="container mx-auto py-6">
+      <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Study Room: {roomId}</h1>
-          <p className="text-gray-500">Collaborate with your study group in real-time</p>
+          <h1 className="text-3xl font-bold">Study Room: {roomId}</h1>
+          <p className="text-gray-500">Organic Chemistry Discussion</p>
         </div>
-        <Badge variant="outline" className="flex items-center">
-          <div className="h-2 w-2 rounded-full bg-green-500 mr-2"></div>
-          Active Session
-        </Badge>
+        <div className="flex space-x-2">
+          <Button variant="outline">
+            <Users className="mr-2 h-4 w-4" />
+            Invite
+          </Button>
+          <Button variant="destructive" onClick={() => window.history.back()}>Leave Room</Button>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-6">
-          <Card className="min-h-[400px]">
-            <CardHeader>
-              <CardTitle>Video Conference</CardTitle>
-              <CardDescription>Connect with voice and video</CardDescription>
-            </CardHeader>
-            <CardContent className="flex flex-col items-center justify-center h-[300px] bg-gray-100 dark:bg-gray-800 rounded-md">
-              {isVideoOn ? (
-                <div className="text-center">Video is active</div>
-              ) : (
-                <div className="text-center">
-                  <VideoOff className="h-16 w-16 mx-auto text-gray-400" />
-                  <p className="mt-4 text-gray-500">Video is off</p>
-                </div>
-              )}
-              <div className="mt-auto flex justify-center gap-3 py-4">
-                <Button 
-                  size="icon" 
-                  variant={isMicOn ? "default" : "outline"} 
-                  onClick={toggleMic}
-                >
-                  {isMicOn ? <Mic className="h-5 w-5" /> : <MicOff className="h-5 w-5" />}
-                </Button>
-                <Button 
-                  size="icon" 
-                  variant={isVideoOn ? "default" : "outline"} 
-                  onClick={toggleVideo}
-                >
-                  {isVideoOn ? <Video className="h-5 w-5" /> : <VideoOff className="h-5 w-5" />}
-                </Button>
-                <Button 
-                  size="icon" 
-                  variant={isSharing ? "default" : "outline"} 
-                  onClick={toggleScreenShare}
-                >
-                  <ScreenShare className="h-5 w-5" />
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Tabs defaultValue="whiteboard" className="w-full">
-            <TabsList className="grid grid-cols-2">
-              <TabsTrigger value="whiteboard">Whiteboard</TabsTrigger>
-              <TabsTrigger value="notes">Shared Notes</TabsTrigger>
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="lg:col-span-3">
+          <Tabs defaultValue="voice" className="w-full">
+            <TabsList className="grid grid-cols-3 mb-4">
+              <TabsTrigger value="voice">
+                <Mic className="mr-2 h-4 w-4" />
+                Voice Chat
+              </TabsTrigger>
+              <TabsTrigger value="video">
+                <Video className="mr-2 h-4 w-4" />
+                Video
+              </TabsTrigger>
+              <TabsTrigger value="screen">
+                <ScreenShare className="mr-2 h-4 w-4" />
+                Screen Share
+              </TabsTrigger>
             </TabsList>
-            <TabsContent value="whiteboard" className="mt-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Collaborative Whiteboard</CardTitle>
-                  <CardDescription>Draw and explain concepts together</CardDescription>
-                </CardHeader>
-                <CardContent className="h-[300px] bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500">
-                  <div className="text-center">
-                    <Share className="h-16 w-16 mx-auto text-gray-400" />
-                    <p className="mt-4">Click to start collaborating on the whiteboard</p>
+
+            <TabsContent value="voice" className="border rounded-lg p-6">
+              <div className="text-center">
+                <div className="flex justify-center mb-8">
+                  <div className="grid grid-cols-3 gap-4">
+                    {participants.map((participant) => (
+                      <div key={participant.id} className="flex flex-col items-center">
+                        <Avatar className="h-20 w-20 mb-2">
+                          <AvatarImage src={participant.avatar} />
+                          <AvatarFallback>{participant.name[0]}</AvatarFallback>
+                        </Avatar>
+                        <p className="font-medium">{participant.name}</p>
+                        <Badge variant={participant.status === "active" ? "default" : "outline"}>
+                          {participant.status === "active" ? "Speaking" : "Muted"}
+                        </Badge>
+                      </div>
+                    ))}
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+                
+                <div className="flex justify-center space-x-4">
+                  <Button variant="outline" size="lg" onClick={toggleCall}>
+                    {isInCall ? <PhoneOff className="mr-2 h-4 w-4" /> : <Mic className="mr-2 h-4 w-4" />}
+                    {isInCall ? "Leave Voice Chat" : "Join Voice Chat"}
+                  </Button>
+                </div>
+              </div>
             </TabsContent>
-            <TabsContent value="notes" className="mt-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Shared Notes</CardTitle>
-                  <CardDescription>Take notes together in real-time</CardDescription>
-                </CardHeader>
-                <CardContent className="h-[300px] bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500">
-                  <div className="text-center">
-                    <MessageSquare className="h-16 w-16 mx-auto text-gray-400" />
-                    <p className="mt-4">Click to start taking notes together</p>
-                  </div>
-                </CardContent>
-              </Card>
+
+            <TabsContent value="video">
+              <div className="text-center p-12 border rounded-lg">
+                <Video className="mx-auto h-16 w-16 text-gray-400 mb-4" />
+                <h3 className="text-xl font-medium">Video Chat</h3>
+                <p className="text-gray-500 mb-4">Start a video session with your study group</p>
+                <Button>Start Video Chat</Button>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="screen">
+              <div className="text-center p-12 border rounded-lg">
+                <ScreenShare className="mx-auto h-16 w-16 text-gray-400 mb-4" />
+                <h3 className="text-xl font-medium">Screen Sharing</h3>
+                <p className="text-gray-500 mb-4">Share your screen with the group</p>
+                <Button>Share Screen</Button>
+              </div>
             </TabsContent>
           </Tabs>
+          
+          <Card className="mt-6">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <MessageSquare className="mr-2 h-5 w-5" />
+                Group Chat
+              </CardTitle>
+              <CardDescription>Discuss with your study partners</CardDescription>
+            </CardHeader>
+            <CardContent className="max-h-[400px] overflow-y-auto space-y-4">
+              {messages.map((msg) => (
+                <div key={msg.id} className={`flex ${msg.user === "You" ? "justify-end" : ""}`}>
+                  {msg.user !== "You" && (
+                    <Avatar className="h-8 w-8 mr-2">
+                      <AvatarImage src={msg.avatar} />
+                      <AvatarFallback>{msg.user[0]}</AvatarFallback>
+                    </Avatar>
+                  )}
+                  <div className={`max-w-[70%] ${msg.user === "You" ? "bg-primary text-primary-foreground" : "bg-secondary"} rounded-lg px-4 py-2`}>
+                    <div className="flex justify-between text-xs mb-1">
+                      <span className={msg.user === "You" ? "text-primary-foreground" : "text-gray-500"}>{msg.user}</span>
+                      <span className={msg.user === "You" ? "text-primary-foreground" : "text-gray-500"}>{msg.time}</span>
+                    </div>
+                    <p>{msg.message}</p>
+                  </div>
+                </div>
+              ))}
+            </CardContent>
+            <CardFooter>
+              <form onSubmit={handleSendMessage} className="w-full flex space-x-2">
+                <Input 
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="Type your message..."
+                  className="flex-1"
+                />
+                <Button type="submit">Send</Button>
+              </form>
+            </CardFooter>
+          </Card>
         </div>
-
+        
         <div className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center">
-                <Users className="mr-2 h-5 w-5" /> Participants
-              </CardTitle>
-              <CardDescription>{participants.filter(p => p.active).length} active users</CardDescription>
+              <CardTitle>Participants</CardTitle>
+              <CardDescription>{participants.length} people in this room</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              {participants.map(participant => (
+              {participants.map((participant) => (
                 <div key={participant.id} className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <Avatar>
-                      <AvatarFallback>{participant.name.substring(0, 2).toUpperCase()}</AvatarFallback>
+                  <div className="flex items-center">
+                    <Avatar className="h-8 w-8 mr-2">
+                      <AvatarImage src={participant.avatar} />
+                      <AvatarFallback>{participant.name[0]}</AvatarFallback>
                     </Avatar>
-                    <span>{participant.name}</span>
+                    <div>
+                      <p className="font-medium">{participant.name}</p>
+                      <p className="text-xs text-gray-500">{participant.role}</p>
+                    </div>
                   </div>
-                  <Badge variant={participant.active ? "default" : "outline"}>
-                    {participant.active ? "Active" : "Away"}
-                  </Badge>
+                  <div className={`h-2 w-2 rounded-full ${participant.status === "active" ? "bg-green-500" : "bg-gray-300"}`}></div>
                 </div>
               ))}
             </CardContent>
           </Card>
-
+          
+          <MusicPlayer />
+          
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center">
-                <MessageSquare className="mr-2 h-5 w-5" /> Chat
-              </CardTitle>
+              <CardTitle>Study Session</CardTitle>
+              <CardDescription>Current topic: Organic Chemistry</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4 h-[300px] overflow-y-auto mb-4">
-                {messages.map(msg => (
-                  <div key={msg.id} className={`flex flex-col ${msg.sender === "You" ? "items-end" : "items-start"}`}>
-                    <div className={`px-3 py-2 rounded-lg ${msg.sender === "You" ? "bg-primary text-primary-foreground" : "bg-muted"}`}>
-                      <div className="font-medium text-sm">{msg.sender}</div>
-                      <div>{msg.text}</div>
-                    </div>
-                    <span className="text-xs text-gray-500 mt-1">{msg.time}</span>
+              <div className="space-y-4">
+                <div>
+                  <p className="text-sm font-medium">Session Time</p>
+                  <p className="text-2xl font-bold">01:45:22</p>
+                </div>
+                <div>
+                  <p className="text-sm font-medium">Progress</p>
+                  <div className="w-full bg-gray-200 rounded-full h-2.5 mt-1">
+                    <div className="bg-primary h-2.5 rounded-full" style={{ width: '65%' }}></div>
                   </div>
-                ))}
+                  <p className="text-xs text-right mt-1 text-gray-500">65% of today's goal</p>
+                </div>
               </div>
-              <form onSubmit={sendMessage} className="flex gap-2">
-                <Input
-                  placeholder="Type a message..."
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                />
-                <Button type="submit">Send</Button>
-              </form>
             </CardContent>
           </Card>
         </div>
