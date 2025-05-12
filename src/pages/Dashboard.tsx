@@ -1,5 +1,6 @@
 
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -151,15 +152,17 @@ const Dashboard = () => {
               ))}
             </CardContent>
             <CardFooter>
-              <motion.div 
-                className="w-full"
-                whileHover={{ scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
-              >
-                <Button variant="outline" className="w-full">
-                  <Calendar className="mr-2 h-4 w-4" /> View Full Schedule
-                </Button>
-              </motion.div>
+              <Link to="/schedule" className="w-full">
+                <motion.div 
+                  className="w-full"
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                >
+                  <Button variant="outline" className="w-full">
+                    <Calendar className="mr-2 h-4 w-4" /> View Full Schedule
+                  </Button>
+                </motion.div>
+              </Link>
             </CardFooter>
           </Card>
         </motion.div>
@@ -197,13 +200,15 @@ const Dashboard = () => {
               </motion.div>
             </CardContent>
             <CardFooter>
-              <motion.div 
-                className="w-full"
-                whileHover={{ scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
-              >
-                <Button variant="outline" className="w-full">Create New Room</Button>
-              </motion.div>
+              <Link to="/create-room" className="w-full">
+                <motion.div 
+                  className="w-full"
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                >
+                  <Button variant="outline" className="w-full">Create New Room</Button>
+                </motion.div>
+              </Link>
             </CardFooter>
           </Card>
         </motion.div>
@@ -246,13 +251,15 @@ const Dashboard = () => {
               </div>
             </CardContent>
             <CardFooter>
-              <motion.div 
-                className="w-full"
-                whileHover={{ scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
-              >
-                <Button variant="outline" className="w-full">View AI Study Tools</Button>
-              </motion.div>
+              <Link to="/ai-assistant" className="w-full">
+                <motion.div 
+                  className="w-full"
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                >
+                  <Button variant="outline" className="w-full">View AI Study Tools</Button>
+                </motion.div>
+              </Link>
             </CardFooter>
           </Card>
         </motion.div>

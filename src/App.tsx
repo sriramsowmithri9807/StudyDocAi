@@ -11,6 +11,8 @@ import AIAssistant from "./pages/AIAssistant";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
+import Schedule from "./pages/Schedule";
+import CreateRoom from "./pages/CreateRoom";
 import Layout from "./components/Layout";
 import TeddyAIChat from "./components/TeddyAIChat";
 import { motion, AnimatePresence } from "framer-motion";
@@ -95,6 +97,32 @@ const App = () => (
                   transition={pageTransition}
                 >
                   <AIAssistant />
+                </motion.div>
+              </Layout>
+            } />
+            <Route path="/schedule" element={
+              <Layout>
+                <motion.div
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}
+                >
+                  <Schedule />
+                </motion.div>
+              </Layout>
+            } />
+            <Route path="/create-room" element={
+              <Layout>
+                <motion.div
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}
+                >
+                  <CreateRoom />
                 </motion.div>
               </Layout>
             } />

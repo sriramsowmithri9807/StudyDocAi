@@ -2,7 +2,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
-import { Calendar, Book, Users, UserCircle } from "lucide-react";
+import { Calendar, Book, Users, UserCircle, CalendarPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 
@@ -80,6 +80,22 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                       <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                         <Calendar className="mr-2 h-4 w-4" />
                         Dashboard
+                      </NavigationMenuLink>
+                    </motion.div>
+                  </Link>
+                </NavigationMenuItem>
+              </motion.div>
+              
+              <motion.div variants={menuItemVariants}>
+                <NavigationMenuItem>
+                  <Link to="/schedule">
+                    <motion.div 
+                      whileHover={{ scale: 1.05 }} 
+                      transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                    >
+                      <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                        <CalendarPlus className="mr-2 h-4 w-4" />
+                        Schedule
                       </NavigationMenuLink>
                     </motion.div>
                   </Link>
