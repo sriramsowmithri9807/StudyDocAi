@@ -1,7 +1,8 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Bear, Send, X, Minimize2, Maximize2 } from "lucide-react";
+import { Smile, Send, X, Minimize2, Maximize2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
@@ -122,7 +123,7 @@ const TeddyAIChat: React.FC = () => {
           onClick={toggleChat}
           className="rounded-full w-14 h-14 bg-purple-600 hover:bg-purple-700 text-white shadow-lg"
         >
-          <Bear className="w-6 h-6" />
+          <Smile className="w-6 h-6" />
         </Button>
       </motion.div>
 
@@ -146,7 +147,7 @@ const TeddyAIChat: React.FC = () => {
                 <div className="flex items-center space-x-2">
                   <Avatar className="h-8 w-8 bg-purple-100">
                     <AvatarFallback className="bg-purple-200 text-purple-700">
-                      <Bear className="h-4 w-4" />
+                      <Smile className="h-4 w-4" />
                     </AvatarFallback>
                   </Avatar>
                   <div>
