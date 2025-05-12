@@ -12,7 +12,6 @@ const PomodoroCard = () => {
     <motion.div
       initial="initial"
       animate="animate"
-      whileHover="hover"
       whileHover={{ y: -5 }}
       transition={{ type: "spring", stiffness: 300, damping: 10 }}
     >
