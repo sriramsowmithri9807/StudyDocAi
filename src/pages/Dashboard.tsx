@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar, Users, Book, CalendarPlus } from "lucide-react";
 import { motion } from "framer-motion";
 import PomodoroCard from "@/components/PomodoroCard";
+import DashboardPanda from "@/components/DashboardPanda";
 
 const Dashboard = () => {
   // Animation variants
@@ -43,7 +43,10 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="container px-4 py-8">
+    <div className="container px-4 py-8 relative">
+      {/* Add the dashboard panda */}
+      <DashboardPanda />
+      
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}

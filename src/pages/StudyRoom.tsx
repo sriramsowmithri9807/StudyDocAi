@@ -7,10 +7,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/sonner";
 import { Users, Video, MessageSquare, Mic, ScreenShare, PhoneOff } from "lucide-react";
 import MusicPlayer from "@/components/MusicPlayer";
+import StudyRoomPanda from "@/components/StudyRoomPanda";
 
 const StudyRoom = () => {
   const { roomId } = useParams<{ roomId: string }>();
@@ -48,7 +48,11 @@ const StudyRoom = () => {
   ];
 
   return (
-    <div className="container mx-auto py-6">
+    <div className="container mx-auto py-6 relative">
+      {/* Decorative pandas */}
+      <StudyRoomPanda position="left" delay={0.5} />
+      <StudyRoomPanda position="right" delay={0.8} isActive={isInCall} />
+
       <div className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-3xl font-bold">Study Room: {roomId}</h1>

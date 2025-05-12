@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
 import { toast } from "@/components/ui/sonner";
 import { Clock, Play, Pause, RefreshCw } from "lucide-react";
+import PandaAnimation from "@/components/PandaAnimation";
 
 const Pomodoro = () => {
   // Max time 3 hours in seconds
@@ -15,6 +16,7 @@ const Pomodoro = () => {
   const [isRunning, setIsRunning] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [pomodoroType, setPomodoroType] = useState<"focus" | "break">("focus");
+  const [pandaMood, setPandaMood] = useState<"reading" | "happy">("reading");
   
   // Format time to mm:ss or hh:mm:ss
   const formatTime = (seconds: number) => {
@@ -32,6 +34,7 @@ const Pomodoro = () => {
     let interval: number | undefined;
     
     if (isRunning && !isPaused && timeLeft > 0) {
+      setPandaMood("reading");
       interval = window.setInterval(() => {
         setTimeLeft((prevTime) => prevTime - 1);
       }, 1000);
@@ -40,12 +43,16 @@ const Pomodoro = () => {
         toast.success("Focus session completed! Take a break.");
         setPomodoroType("break");
         setTimeLeft(5 * 60); // 5 minute break
+        setPandaMood("happy");
       } else {
         toast.success("Break time over! Ready for another focus session?");
         setPomodoroType("focus");
         setTimeLeft(25 * 60); // 25 minute focus
+        setPandaMood("reading");
       }
       setIsRunning(false);
+    } else if (!isRunning && !isPaused) {
+      setPandaMood(pomodoroType === "focus" ? "reading" : "happy");
     }
     
     return () => clearInterval(interval);
@@ -65,6 +72,7 @@ const Pomodoro = () => {
     setIsPaused(false);
     setTimeLeft(25 * 60);
     setPomodoroType("focus");
+    setPandaMood("reading");
     toast.info("Timer reset!");
   };
   
@@ -78,28 +86,6 @@ const Pomodoro = () => {
   const timePercentage = (timeLeft / maxTime) * 100;
   
   // Animation variants
-  const pandaVariants = {
-    breathe: {
-      scale: [1, 1.03, 1],
-      transition: {
-        duration: 3,
-        repeat: Infinity,
-        repeatType: "reverse" as const,
-      },
-    },
-  };
-  
-  const bookVariants = {
-    hover: {
-      rotateY: [0, 5, 0],
-      transition: {
-        duration: 5,
-        repeat: Infinity,
-        ease: "easeInOut",
-      },
-    },
-  };
-  
   const leafVariants = {
     wave: {
       rotate: [0, 2, -2, 0],
@@ -114,7 +100,7 @@ const Pomodoro = () => {
   return (
     <div className="min-h-[calc(100vh-16rem)] relative overflow-hidden">
       {/* Forest Background with SVG Elements */}
-      <div className="absolute inset-0 forest-bg opacity-20 z-0"></div>
+      <div className="absolute inset-0 forest-bg opacity-30 z-0"></div>
       
       {/* Animated leaves and elements */}
       <motion.div 
@@ -153,71 +139,19 @@ const Pomodoro = () => {
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 w-full max-w-6xl">
-            {/* Panda and book visualization */}
+            {/* Panda animation */}
             <motion.div 
               className="col-span-1 lg:col-span-3 flex justify-center items-center"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3, duration: 1 }}
             >
-              <div className="relative w-full h-[400px]">
+              <div className="relative w-full h-[400px] flex justify-center items-center">
                 {/* Green grass base */}
                 <div className="absolute bottom-0 w-full h-20 bg-green-600 rounded-full opacity-30"></div>
                 
-                {/* Panda */}
-                <motion.div 
-                  className="absolute left-1/2 bottom-12 transform -translate-x-1/2"
-                  variants={pandaVariants}
-                  animate="breathe"
-                >
-                  {/* Panda Body */}
-                  <div className="relative">
-                    {/* Body */}
-                    <div className="w-64 h-80 bg-white rounded-[50%] relative shadow-lg">
-                      {/* Face */}
-                      <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-40 h-36 bg-white rounded-full">
-                        {/* Eyes */}
-                        <div className="absolute top-12 left-6 w-10 h-14 bg-black rounded-full"></div>
-                        <div className="absolute top-12 right-6 w-10 h-14 bg-black rounded-full"></div>
-                        
-                        {/* Eye shine */}
-                        <div className="absolute top-14 left-8 w-3 h-3 bg-white rounded-full"></div>
-                        <div className="absolute top-14 right-8 w-3 h-3 bg-white rounded-full"></div>
-                        
-                        {/* Nose */}
-                        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 w-7 h-5 bg-black rounded-full"></div>
-                      </div>
-                      
-                      {/* Ears */}
-                      <div className="absolute top-0 left-8 w-12 h-12 bg-black rounded-full"></div>
-                      <div className="absolute top-0 right-8 w-12 h-12 bg-black rounded-full"></div>
-                      
-                      {/* Arms */}
-                      <div className="absolute bottom-20 left-0 w-16 h-12 bg-black rounded-full"></div>
-                      <div className="absolute bottom-20 right-0 w-16 h-12 bg-black rounded-full"></div>
-                      
-                      {/* Legs */}
-                      <div className="absolute bottom-0 left-12 w-14 h-12 bg-black rounded-full"></div>
-                      <div className="absolute bottom-0 right-12 w-14 h-12 bg-black rounded-full"></div>
-                      
-                      {/* Book */}
-                      <motion.div 
-                        className="absolute top-40 left-1/2 transform -translate-x-1/2"
-                        variants={bookVariants}
-                        animate="hover"
-                      >
-                        <div className="w-48 h-30 bg-green-700 rounded-lg flex items-center justify-center shadow-lg">
-                          <div className="w-44 h-28 bg-amber-50 rounded-lg p-2">
-                            <div className="w-full h-3 bg-gray-400 mb-1"></div>
-                            <div className="w-3/4 h-3 bg-gray-400 mb-1"></div>
-                            <div className="w-full h-3 bg-gray-400 mb-1"></div>
-                            <div className="w-2/3 h-3 bg-gray-400"></div>
-                          </div>
-                        </div>
-                      </motion.div>
-                    </div>
-                  </div>
-                </motion.div>
+                {/* Our new Panda component */}
+                <PandaAnimation mood={pandaMood} size="large" className="scale-150 mb-12" />
               </div>
             </motion.div>
             
