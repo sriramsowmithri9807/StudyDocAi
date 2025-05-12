@@ -13,6 +13,7 @@ import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import Schedule from "./pages/Schedule";
 import CreateRoom from "./pages/CreateRoom";
+import Pomodoro from "./pages/Pomodoro";
 import Layout from "./components/Layout";
 import TeddyAIChat from "./components/TeddyAIChat";
 import { motion, AnimatePresence } from "framer-motion";
@@ -123,6 +124,19 @@ const App = () => (
                   transition={pageTransition}
                 >
                   <CreateRoom />
+                </motion.div>
+              </Layout>
+            } />
+            <Route path="/pomodoro" element={
+              <Layout>
+                <motion.div
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}
+                >
+                  <Pomodoro />
                 </motion.div>
               </Layout>
             } />

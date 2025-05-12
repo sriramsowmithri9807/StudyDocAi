@@ -1,0 +1,292 @@
+
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Slider } from "@/components/ui/slider";
+import { toast } from "@/components/ui/sonner";
+import { Clock, Play, Pause, RefreshCw } from "lucide-react";
+
+const Pomodoro = () => {
+  // Max time 3 hours in seconds
+  const maxTime = 3 * 60 * 60;
+  const [timeLeft, setTimeLeft] = useState(25 * 60); // default 25 minutes
+  const [isRunning, setIsRunning] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const [pomodoroType, setPomodoroType] = useState<"focus" | "break">("focus");
+  
+  // Format time to mm:ss or hh:mm:ss
+  const formatTime = (seconds: number) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    
+    if (hours > 0) {
+      return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+    }
+    return `${minutes.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+  };
+  
+  useEffect(() => {
+    let interval: number | undefined;
+    
+    if (isRunning && !isPaused && timeLeft > 0) {
+      interval = window.setInterval(() => {
+        setTimeLeft((prevTime) => prevTime - 1);
+      }, 1000);
+    } else if (timeLeft === 0) {
+      if (pomodoroType === "focus") {
+        toast.success("Focus session completed! Take a break.");
+        setPomodoroType("break");
+        setTimeLeft(5 * 60); // 5 minute break
+      } else {
+        toast.success("Break time over! Ready for another focus session?");
+        setPomodoroType("focus");
+        setTimeLeft(25 * 60); // 25 minute focus
+      }
+      setIsRunning(false);
+    }
+    
+    return () => clearInterval(interval);
+  }, [isRunning, isPaused, timeLeft, pomodoroType]);
+  
+  const startTimer = () => {
+    setIsRunning(true);
+    setIsPaused(false);
+  };
+  
+  const pauseTimer = () => {
+    setIsPaused(true);
+  };
+  
+  const resetTimer = () => {
+    setIsRunning(false);
+    setIsPaused(false);
+    setTimeLeft(25 * 60);
+    setPomodoroType("focus");
+    toast.info("Timer reset!");
+  };
+  
+  const handleSliderChange = (value: number[]) => {
+    if (!isRunning) {
+      const newTime = Math.round((value[0] / 100) * maxTime);
+      setTimeLeft(newTime > 0 ? newTime : 60); // Minimum 1 minute
+    }
+  };
+  
+  const timePercentage = (timeLeft / maxTime) * 100;
+  
+  // Animation variants
+  const pandaVariants = {
+    breathe: {
+      scale: [1, 1.03, 1],
+      transition: {
+        duration: 3,
+        repeat: Infinity,
+        repeatType: "reverse" as const,
+      },
+    },
+  };
+  
+  const bookVariants = {
+    hover: {
+      rotateY: [0, 5, 0],
+      transition: {
+        duration: 5,
+        repeat: Infinity,
+        ease: "easeInOut",
+      },
+    },
+  };
+  
+  const leafVariants = {
+    wave: {
+      rotate: [0, 2, -2, 0],
+      transition: {
+        duration: 4,
+        repeat: Infinity,
+        repeatType: "reverse" as const,
+      },
+    },
+  };
+  
+  return (
+    <div className="min-h-[calc(100vh-16rem)] relative overflow-hidden">
+      {/* Forest Background with SVG Elements */}
+      <div className="absolute inset-0 forest-bg opacity-20 z-0"></div>
+      
+      {/* Animated leaves and elements */}
+      <motion.div 
+        className="absolute top-10 right-10 text-green-700 opacity-60 z-0"
+        variants={leafVariants}
+        animate="wave"
+      >
+        <svg width="100" height="100" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z" />
+        </svg>
+      </motion.div>
+      
+      <motion.div 
+        className="absolute bottom-10 left-10 text-green-700 opacity-60 z-0"
+        variants={leafVariants}
+        animate="wave"
+        initial={{ rotate: 180 }}
+      >
+        <svg width="120" height="120" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z" />
+        </svg>
+      </motion.div>
+      
+      <div className="container px-4 py-16 relative z-10">
+        <div className="flex flex-col items-center">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-8"
+          >
+            <h1 className="text-4xl font-bold text-primary mb-2">Panda Pomodoro Timer</h1>
+            <p className="text-muted-foreground max-w-lg mx-auto">
+              Set your study sessions with our friendly panda companion. Balance your work with breaks to maximize productivity.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 w-full max-w-6xl">
+            {/* Panda and book visualization */}
+            <motion.div 
+              className="col-span-1 lg:col-span-3 flex justify-center items-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 1 }}
+            >
+              <div className="relative w-full h-[400px]">
+                {/* Green grass base */}
+                <div className="absolute bottom-0 w-full h-20 bg-green-600 rounded-full opacity-30"></div>
+                
+                {/* Panda */}
+                <motion.div 
+                  className="absolute left-1/2 bottom-12 transform -translate-x-1/2"
+                  variants={pandaVariants}
+                  animate="breathe"
+                >
+                  {/* Panda Body */}
+                  <div className="relative">
+                    {/* Body */}
+                    <div className="w-64 h-80 bg-white rounded-[50%] relative shadow-lg">
+                      {/* Face */}
+                      <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-40 h-36 bg-white rounded-full">
+                        {/* Eyes */}
+                        <div className="absolute top-12 left-6 w-10 h-14 bg-black rounded-full"></div>
+                        <div className="absolute top-12 right-6 w-10 h-14 bg-black rounded-full"></div>
+                        
+                        {/* Eye shine */}
+                        <div className="absolute top-14 left-8 w-3 h-3 bg-white rounded-full"></div>
+                        <div className="absolute top-14 right-8 w-3 h-3 bg-white rounded-full"></div>
+                        
+                        {/* Nose */}
+                        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 w-7 h-5 bg-black rounded-full"></div>
+                      </div>
+                      
+                      {/* Ears */}
+                      <div className="absolute top-0 left-8 w-12 h-12 bg-black rounded-full"></div>
+                      <div className="absolute top-0 right-8 w-12 h-12 bg-black rounded-full"></div>
+                      
+                      {/* Arms */}
+                      <div className="absolute bottom-20 left-0 w-16 h-12 bg-black rounded-full"></div>
+                      <div className="absolute bottom-20 right-0 w-16 h-12 bg-black rounded-full"></div>
+                      
+                      {/* Legs */}
+                      <div className="absolute bottom-0 left-12 w-14 h-12 bg-black rounded-full"></div>
+                      <div className="absolute bottom-0 right-12 w-14 h-12 bg-black rounded-full"></div>
+                      
+                      {/* Book */}
+                      <motion.div 
+                        className="absolute top-40 left-1/2 transform -translate-x-1/2"
+                        variants={bookVariants}
+                        animate="hover"
+                      >
+                        <div className="w-48 h-30 bg-green-700 rounded-lg flex items-center justify-center shadow-lg">
+                          <div className="w-44 h-28 bg-amber-50 rounded-lg p-2">
+                            <div className="w-full h-3 bg-gray-400 mb-1"></div>
+                            <div className="w-3/4 h-3 bg-gray-400 mb-1"></div>
+                            <div className="w-full h-3 bg-gray-400 mb-1"></div>
+                            <div className="w-2/3 h-3 bg-gray-400"></div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+            </motion.div>
+            
+            {/* Timer controls */}
+            <div className="col-span-1 lg:col-span-2">
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.5, duration: 0.8 }}
+              >
+                <Card className="backdrop-blur-sm bg-white/80 border-2 border-primary/20 shadow-xl">
+                  <CardContent className="p-6">
+                    <div className="mb-6">
+                      <Badge variant={pomodoroType === "focus" ? "default" : "outline"} className="text-sm mb-2">
+                        {pomodoroType === "focus" ? "Focus Time" : "Break Time"}
+                      </Badge>
+                      <div className="text-6xl font-bold text-center font-mono py-6">
+                        {formatTime(timeLeft)}
+                      </div>
+                    </div>
+                    
+                    <div className="mb-8">
+                      <p className="text-sm text-muted-foreground mb-2">Adjust timer (up to 3 hours):</p>
+                      <Slider
+                        defaultValue={[timePercentage]}
+                        max={100}
+                        step={1}
+                        disabled={isRunning}
+                        onValueChange={handleSliderChange}
+                        className="mb-6"
+                      />
+                    </div>
+                    
+                    <div className="flex justify-center gap-4">
+                      {!isRunning || isPaused ? (
+                        <Button onClick={startTimer} size="lg" className="gap-2">
+                          <Play size={20} />
+                          {isPaused ? "Resume" : "Start"}
+                        </Button>
+                      ) : (
+                        <Button onClick={pauseTimer} size="lg" variant="outline" className="gap-2">
+                          <Pause size={20} />
+                          Pause
+                        </Button>
+                      )}
+                      <Button onClick={resetTimer} variant="outline" size="lg" className="gap-2">
+                        <RefreshCw size={20} />
+                        Reset
+                      </Button>
+                    </div>
+                    
+                    <motion.div 
+                      className="mt-6 text-xs text-center text-muted-foreground"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 1, duration: 1 }}
+                    >
+                      <p>Pomodoro technique: Focus for 25 minutes, then take a 5 minute break.</p>
+                      <p>Adjust the timer to your preference (up to 3 hours).</p>
+                    </motion.div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Pomodoro;
