@@ -28,7 +28,7 @@ const TeddyAIChat: React.FC = () => {
     if (isOpen && messages.length === 0) {
       const initialMessage = {
         id: 1,
-        text: "Hi there! I'm Teddy, your study buddy. How can I help you today?",
+        text: "Hi there! I'm Teddy, your study buddy from Study Doc AI. How can I help you today?",
         sender: 'teddy' as const,
         timestamp: new Date()
       };
@@ -152,7 +152,7 @@ const TeddyAIChat: React.FC = () => {
                   </Avatar>
                   <div>
                     <h3 className="font-medium text-sm">Teddy</h3>
-                    <p className="text-xs text-gray-500">Your AI Study Buddy</p>
+                    <p className="text-xs text-gray-500">Your Study Doc AI Buddy</p>
                   </div>
                 </div>
                 <div className="flex space-x-1">

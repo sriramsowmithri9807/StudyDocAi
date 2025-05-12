@@ -64,7 +64,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 400, damping: 10 }}>
             <Link to="/" className="text-xl font-bold text-primary">
-              StudySync<span className="text-purple-400">AI</span>
+              Study Doc<span className="text-purple-400">AI</span>
             </Link>
           </motion.div>
           
@@ -162,7 +162,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         animate="visible"
       >
         <div className="container mx-auto px-4 text-center text-sm text-gray-500">
-          © {new Date().getFullYear()} StudySyncAI. All rights reserved.
+          © {new Date().getFullYear()} Study Doc AI. All rights reserved.
         </div>
       </motion.footer>
     </div>
