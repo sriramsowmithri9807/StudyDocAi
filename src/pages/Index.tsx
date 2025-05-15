@@ -85,7 +85,7 @@ const Index = () => {
                   transition={{ delay: 0.2, duration: 0.5 }}
                 >
                   <Badge variant="outline" className="inline-flex">
-                    AI-Powered Study Platform
+                    AI-Powered Document Study Assistant
                   </Badge>
                 </motion.div>
                 
@@ -95,7 +95,7 @@ const Index = () => {
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.4, duration: 0.6 }}
                 >
-                  Transform Your Study Experience with StudySync<motion.span 
+                  Transform Your Study Experience with StudyDoc AI<motion.span 
                     className="text-purple-600"
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
