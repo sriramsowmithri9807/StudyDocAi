@@ -16,6 +16,10 @@ Transform your study experience with AI-powered document analysis and learning a
 - 📅 **Study Scheduler**: Plan and organize your study sessions
 - 💬 **AI Assistant**: Get instant help with your study materials
 - 💾 **MongoDB Integration**: Store user data and settings persistently
+- **AI Assistant with Llama LLM**: Integrated AI assistant that can answer questions based on uploaded documents
+- **Document Analysis**: Upload study materials for AI to analyze and extract key information
+- **Flashcard Generation**: Automatically generate study flashcards from your uploaded documents
+- **Quiz Generation**: Create custom quizzes based on your study materials
 
 ## 🚀 Quick Start
 
@@ -42,6 +46,7 @@ npm run build
 - **State Management**: React Query
 - **Database**: MongoDB with Mongoose
 - **Authentication**: JWT
+- **Llama LLM**: Integration with Llama LLM for enhanced document analysis and content generation
 
 ## 🌟 Key Components
 
@@ -131,3 +136,56 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ---
 
 Built with 💜 for students and lifelong learners
+
+## Llama LLM Integration
+
+The AI Assistant now features integration with Llama LLM for enhanced document analysis and content generation:
+
+### Key AI Features
+
+1. **Document Analysis**
+   - Upload and process study materials
+   - Extract key concepts and information
+   - Utilize semantic understanding for better responses
+
+2. **Smart Q&A**
+   - Ask questions about your study materials
+   - Get contextual answers based on your uploaded documents
+   - Receive explanations tailored to your study content
+
+3. **Automated Flashcards**
+   - Generate study flashcards from your documents
+   - Organize cards by topic
+   - Review with an interactive flashcard interface
+
+4. **Custom Quizzes**
+   - Create quizzes based on your study materials
+   - Multiple-choice questions with explanations
+   - Track your progress and understanding
+
+## Technical Implementation
+
+The Llama LLM integration is implemented using:
+
+- Document processing pipeline for text extraction
+- Context-aware question answering system
+- Custom flashcard and quiz generators
+- Frontend components for interactive study tools
+
+## Getting Started
+
+1. Clone the repository
+2. Install dependencies with `npm install`
+3. Start the development server with `npm run dev`
+4. Open the application in your browser
+
+## Technologies
+
+- React.js
+- TypeScript
+- Tailwind CSS
+- Framer Motion
+- Shadcn/UI
+- MongoDB
+- JWT Authentication
+- Llama LLM
