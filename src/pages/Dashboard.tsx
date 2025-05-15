@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, Users, Book, CalendarPlus } from "lucide-react";
+import { Calendar, Users, Book, CalendarPlus, Save } from "lucide-react";
 import { motion } from "framer-motion";
 import PomodoroCard from "@/components/PomodoroCard";
 import DashboardPanda from "@/components/DashboardPanda";
+import { toast } from "@/hooks/use-toast";
 
 const Dashboard = () => {
   // Animation variants
@@ -40,6 +41,67 @@ const Dashboard = () => {
         damping: 10
       }
     }
+  };
+
+  // New state for quick schedule form
+  const [quickSchedule, setQuickSchedule] = useState({
+    subject: "",
+    date: "",
+    startTime: "",
+    endTime: ""
+  });
+
+  // Handle form input changes
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setQuickSchedule(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Save quick schedule
+  const saveQuickSchedule = () => {
+    // Validate form
+    if (!quickSchedule.subject || !quickSchedule.date || !quickSchedule.startTime || !quickSchedule.endTime) {
+      toast({
+        title: "Missing information",
+        description: "Please fill in all fields to add to your schedule",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // In a real app, this would save to a database or state management
+    // Here we'll just save to localStorage as an example
+    const savedSchedules = JSON.parse(localStorage.getItem("studySchedules") || "[]");
+    
+    // Add the new schedule with unique ID
+    savedSchedules.push({
+      id: Date.now(),
+      subject: quickSchedule.subject,
+      date: quickSchedule.date,
+      startTime: quickSchedule.startTime,
+      endTime: quickSchedule.endTime,
+      completed: false
+    });
+    
+    // Save back to localStorage
+    localStorage.setItem("studySchedules", JSON.stringify(savedSchedules));
+    
+    // Show success message
+    toast({
+      title: "Schedule saved!",
+      description: `Added ${quickSchedule.subject} to your schedule on ${new Date(quickSchedule.date).toLocaleDateString()}`,
+    });
+    
+    // Reset form
+    setQuickSchedule({
+      subject: "",
+      date: "",
+      startTime: "",
+      endTime: ""
+    });
   };
 
   return (
@@ -210,28 +272,49 @@ const Dashboard = () => {
                   <label className="text-sm font-medium">Subject</label>
                   <input
                     type="text"
+                    name="subject"
+                    value={quickSchedule.subject}
+                    onChange={handleInputChange}
                     placeholder="e.g., Anatomy, Circuit Theory..."
                     className="w-full px-3 py-2 border rounded-md"
                   />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Date</label>
-                  <input type="date" className="w-full px-3 py-2 border rounded-md" />
+                  <input 
+                    type="date" 
+                    name="date"
+                    value={quickSchedule.date}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border rounded-md" 
+                  />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Start Time</label>
-                  <input type="time" className="w-full px-3 py-2 border rounded-md" />
+                  <input 
+                    type="time" 
+                    name="startTime"
+                    value={quickSchedule.startTime}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border rounded-md" 
+                  />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium">End Time</label>
-                  <input type="time" className="w-full px-3 py-2 border rounded-md" />
+                  <input 
+                    type="time" 
+                    name="endTime"
+                    value={quickSchedule.endTime}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border rounded-md" 
+                  />
                 </div>
               </div>
             </div>
           </CardContent>
           <CardFooter>
-            <Button className="w-full">
-              Add to Schedule
+            <Button className="w-full" onClick={saveQuickSchedule}>
+              <Save className="mr-2 h-4 w-4" /> Add to Schedule
             </Button>
           </CardFooter>
         </Card>

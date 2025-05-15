@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -60,10 +59,24 @@ const formSchema = z.object({
   }),
 });
 
+interface StudyRoom {
+  id: string;
+  roomName: string;
+  subject: string;
+  description: string;
+  date: string;
+  startTime: string;
+  duration: string;
+  maxParticipants: string;
+  createdAt: string;
+  link: string;
+}
+
 const CreateRoom = () => {
   const navigate = useNavigate();
   const [generatedLink, setGeneratedLink] = useState<string | null>(null);
   const [isRoomCreated, setIsRoomCreated] = useState(false);
+  const [createdRoom, setCreatedRoom] = useState<StudyRoom | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -78,13 +91,30 @@ const CreateRoom = () => {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    // In a real app, this would make an API call to create the room
-    // For now, we'll simulate it by generating a link
-    
+    // Generate a unique room ID
     const roomId = Math.random().toString(36).substring(2, 10);
     const link = `${window.location.origin}/study-room/${roomId}`;
     
+    // Create the room object
+    const newRoom: StudyRoom = {
+      id: roomId,
+      roomName: values.roomName,
+      subject: values.subject,
+      description: values.description,
+      date: values.date.toISOString().split('T')[0],
+      startTime: values.startTime,
+      duration: values.duration,
+      maxParticipants: values.maxParticipants,
+      createdAt: new Date().toISOString(),
+      link: link
+    };
+    
+    // Save to localStorage
+    saveRoomToLocalStorage(newRoom);
+    
+    // Update state
     setGeneratedLink(link);
+    setCreatedRoom(newRoom);
     setIsRoomCreated(true);
     
     toast({
@@ -93,12 +123,36 @@ const CreateRoom = () => {
     });
   };
 
+  const saveRoomToLocalStorage = (room: StudyRoom) => {
+    // Get existing rooms
+    const existingRooms = JSON.parse(localStorage.getItem("studyRooms") || "[]");
+    
+    // Add the new room
+    existingRooms.push(room);
+    
+    // Save back to localStorage
+    localStorage.setItem("studyRooms", JSON.stringify(existingRooms));
+  };
+
   const copyLinkToClipboard = () => {
     if (generatedLink) {
       navigator.clipboard.writeText(generatedLink);
       toast({
         title: "Link copied!",
         description: "The link has been copied to your clipboard.",
+      });
+    }
+  };
+
+  const shareRoom = () => {
+    if (createdRoom) {
+      // In a real app, this would open a share dialog or send invites
+      // For now, just copy the link
+      copyLinkToClipboard();
+      
+      toast({
+        title: "Room shared!",
+        description: "In a real app, this would send invitations to your friends.",
       });
     }
   };
@@ -320,11 +374,26 @@ const CreateRoom = () => {
                   </Button>
                 </div>
 
+                {createdRoom && (
+                  <div className="p-3 border rounded-md bg-gray-50">
+                    <div className="grid grid-cols-2 gap-2 text-sm">
+                      <div className="font-medium">Subject:</div>
+                      <div>{createdRoom.subject}</div>
+                      <div className="font-medium">Date:</div>
+                      <div>{new Date(createdRoom.date).toLocaleDateString()}</div>
+                      <div className="font-medium">Time:</div>
+                      <div>{createdRoom.startTime}</div>
+                      <div className="font-medium">Duration:</div>
+                      <div>{createdRoom.duration} minutes</div>
+                    </div>
+                  </div>
+                )}
+
                 <div className="flex gap-2">
                   <Button className="flex-1" onClick={copyLinkToClipboard}>
                     <LinkIcon className="mr-2 h-4 w-4" /> Copy Link
                   </Button>
-                  <Button className="flex-1" variant="outline" onClick={() => navigate("/dashboard")}>
+                  <Button className="flex-1" variant="outline" onClick={shareRoom}>
                     <Share className="mr-2 h-4 w-4" /> Share Room
                   </Button>
                 </div>
@@ -333,7 +402,7 @@ const CreateRoom = () => {
           </CardContent>
           {!isRoomCreated && (
             <CardFooter className="border-t px-6 py-4 bg-gray-50">
-              <Button variant="link" className="flex-1" onClick={() => navigate("/")}>
+              <Button variant="link" className="flex-1" onClick={() => navigate("/dashboard")}>
                 Cancel
               </Button>
             </CardFooter>
