@@ -98,10 +98,33 @@ const Pomodoro = () => {
       },
     },
   };
+
+  // Custom giant panda size
+  const giantPandaStyle = { 
+    width: 280, 
+    height: 280,
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    zIndex: 0
+  };
   
   return (
     <div className="min-h-[calc(100vh-16rem)] relative overflow-hidden">
-      <PandaAnimationBW position="center" size="large" mood="reading" className="opacity-30 z-0" />
+      {/* Custom positioned and sized giant panda */}
+      <motion.div 
+        className="absolute inset-0 flex items-center justify-center z-0"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        <PandaAnimationBW 
+          mood={pandaMood} 
+          className="opacity-40 hover:opacity-60" 
+          position="center"
+        />
+      </motion.div>
       
       {/* Forest Background with enhanced visibility for dark mode */}
       <div className="absolute inset-0 forest-bg opacity-20 dark:opacity-40 z-0 dark:bg-blend-luminosity"></div>
@@ -146,7 +169,7 @@ const Pomodoro = () => {
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 w-full max-w-6xl">
-            {/* Panda animation with better visibility */}
+            {/* Removed original panda animation section */}
             <motion.div 
               className="col-span-1 lg:col-span-3 flex justify-center items-center"
               initial={{ opacity: 0 }}
@@ -159,9 +182,6 @@ const Pomodoro = () => {
                 
                 {/* Light source effect to highlight the panda in dark mode */}
                 <div className="absolute inset-0 bg-gradient-to-t from-transparent to-background dark:from-transparent dark:to-background/20 rounded-full opacity-0 dark:opacity-30"></div>
-                
-                {/* Enhanced PandaAnimation */}
-                {/* <PandaAnimation mood={pandaMood} size="large" className="scale-150 mb-12 drop-shadow-xl" /> */}
               </div>
             </motion.div>
             
