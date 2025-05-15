@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
@@ -99,27 +98,30 @@ const Pomodoro = () => {
   
   return (
     <div className="min-h-[calc(100vh-16rem)] relative overflow-hidden">
-      {/* Forest Background with SVG Elements */}
-      <div className="absolute inset-0 forest-bg opacity-30 z-0"></div>
+      {/* Forest Background with enhanced visibility for dark mode */}
+      <div className="absolute inset-0 forest-bg opacity-20 dark:opacity-40 z-0 dark:bg-blend-luminosity"></div>
       
-      {/* Animated leaves and elements */}
+      {/* Gradient overlay for better contrast in dark mode */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background z-0"></div>
+      
+      {/* Animated leaves and elements with enhanced visibility */}
       <motion.div 
-        className="absolute top-10 right-10 text-green-700 opacity-60 z-0"
+        className="absolute top-10 right-10 text-green-700 dark:text-green-500 opacity-70 z-0"
         variants={leafVariants}
         animate="wave"
       >
-        <svg width="100" height="100" viewBox="0 0 24 24" fill="currentColor">
+        <svg width="100" height="100" viewBox="0 0 24 24" fill="currentColor" className="drop-shadow-lg">
           <path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z" />
         </svg>
       </motion.div>
       
       <motion.div 
-        className="absolute bottom-10 left-10 text-green-700 opacity-60 z-0"
+        className="absolute bottom-10 left-10 text-green-700 dark:text-green-500 opacity-70 z-0"
         variants={leafVariants}
         animate="wave"
         initial={{ rotate: 180 }}
       >
-        <svg width="120" height="120" viewBox="0 0 24 24" fill="currentColor">
+        <svg width="120" height="120" viewBox="0 0 24 24" fill="currentColor" className="drop-shadow-lg">
           <path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z" />
         </svg>
       </motion.div>
@@ -139,7 +141,7 @@ const Pomodoro = () => {
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 w-full max-w-6xl">
-            {/* Panda animation */}
+            {/* Panda animation with better visibility */}
             <motion.div 
               className="col-span-1 lg:col-span-3 flex justify-center items-center"
               initial={{ opacity: 0 }}
@@ -147,28 +149,31 @@ const Pomodoro = () => {
               transition={{ delay: 0.3, duration: 1 }}
             >
               <div className="relative w-full h-[400px] flex justify-center items-center">
-                {/* Green grass base */}
-                <div className="absolute bottom-0 w-full h-20 bg-green-600 rounded-full opacity-30"></div>
+                {/* Green grass base with better visibility in dark mode */}
+                <div className="absolute bottom-0 w-full h-20 bg-green-600 dark:bg-green-700 rounded-full opacity-40 dark:opacity-50 shadow-md"></div>
                 
-                {/* Our new Panda component */}
-                <PandaAnimation mood={pandaMood} size="large" className="scale-150 mb-12" />
+                {/* Light source effect to highlight the panda in dark mode */}
+                <div className="absolute inset-0 bg-gradient-to-t from-transparent to-background dark:from-transparent dark:to-background/20 rounded-full opacity-0 dark:opacity-30"></div>
+                
+                {/* Enhanced PandaAnimation */}
+                <PandaAnimation mood={pandaMood} size="large" className="scale-150 mb-12 drop-shadow-xl" />
               </div>
             </motion.div>
             
-            {/* Timer controls */}
+            {/* Timer controls with better contrast */}
             <div className="col-span-1 lg:col-span-2">
               <motion.div
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.5, duration: 0.8 }}
               >
-                <Card className="backdrop-blur-sm bg-white/80 border-2 border-primary/20 shadow-xl">
+                <Card className="backdrop-blur-sm bg-white/90 dark:bg-gray-800/90 border-2 border-primary/30 dark:border-primary/40 shadow-xl">
                   <CardContent className="p-6">
                     <div className="mb-6">
                       <Badge variant={pomodoroType === "focus" ? "default" : "outline"} className="text-sm mb-2">
                         {pomodoroType === "focus" ? "Focus Time" : "Break Time"}
                       </Badge>
-                      <div className="text-6xl font-bold text-center font-mono py-6">
+                      <div className="text-6xl font-bold text-center font-mono py-6 text-primary dark:text-primary">
                         {formatTime(timeLeft)}
                       </div>
                     </div>
@@ -187,24 +192,38 @@ const Pomodoro = () => {
                     
                     <div className="flex justify-center gap-4">
                       {!isRunning || isPaused ? (
-                        <Button onClick={startTimer} size="lg" className="gap-2">
-                          <Play size={20} />
+                        <Button 
+                          onClick={startTimer} 
+                          size="lg" 
+                          className="gap-2 bg-primary hover:bg-primary/90 dark:bg-primary dark:hover:bg-primary/90 text-white shadow-md"
+                        >
+                          <Play size={20} className="fill-white" />
                           {isPaused ? "Resume" : "Start"}
                         </Button>
                       ) : (
-                        <Button onClick={pauseTimer} size="lg" variant="outline" className="gap-2">
-                          <Pause size={20} />
+                        <Button 
+                          onClick={pauseTimer} 
+                          size="lg" 
+                          variant="outline" 
+                          className="gap-2 border-2 border-primary dark:border-primary hover:bg-primary/10 dark:hover:bg-primary/20 shadow-md"
+                        >
+                          <Pause size={20} className="text-primary dark:text-primary" />
                           Pause
                         </Button>
                       )}
-                      <Button onClick={resetTimer} variant="outline" size="lg" className="gap-2">
-                        <RefreshCw size={20} />
+                      <Button 
+                        onClick={resetTimer} 
+                        variant="outline" 
+                        size="lg" 
+                        className="gap-2 border-2 border-muted-foreground dark:border-muted-foreground hover:bg-muted dark:hover:bg-muted/30 shadow-md"
+                      >
+                        <RefreshCw size={20} className="text-muted-foreground dark:text-muted-foreground" />
                         Reset
                       </Button>
                     </div>
                     
                     <motion.div 
-                      className="mt-6 text-xs text-center text-muted-foreground"
+                      className="mt-6 text-xs text-center text-muted-foreground dark:text-muted-foreground"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 1, duration: 1 }}
