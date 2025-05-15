@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -10,6 +9,7 @@ import StudyRoom from "./pages/StudyRoom";
 import AIAssistant from "./pages/AIAssistant";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import CreateAccount from "./pages/CreateAccount";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import Schedule from "./pages/Schedule";
@@ -165,6 +165,17 @@ const App = () => (
                 transition={pageTransition}
               >
                 <SignUp />
+              </motion.div>
+            } />
+            <Route path="/create-account" element={
+              <motion.div
+                initial="initial"
+                animate="in"
+                exit="out"
+                variants={pageVariants}
+                transition={pageTransition}
+              >
+                <CreateAccount />
               </motion.div>
             } />
             <Route path="/profile" element={
