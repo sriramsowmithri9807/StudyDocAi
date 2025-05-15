@@ -114,7 +114,19 @@ const Dashboard = () => {
         transition={{ duration: 0.6 }}
         className="flex flex-col items-center justify-center mb-8"
       >
-        <h1 className="text-4xl font-bold text-center mb-2">Welcome to Study Doc<span className="text-purple-500">AI</span></h1>
+        <motion.h1 
+          className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4, duration: 0.6 }}
+        >
+          Transform Your Study Experience with StudyDoc AI<motion.span 
+            className="text-purple-600"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.8, type: "spring", stiffness: 300 }}
+          >AI</motion.span>
+        </motion.h1>
         <p className="text-muted-foreground text-center max-w-xl">
           Your personalized AI-powered study companion for MBBS and Engineering students
         </p>
