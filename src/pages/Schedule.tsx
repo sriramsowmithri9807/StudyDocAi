@@ -17,8 +17,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import PandaAnimation from "@/components/PandaAnimation";
-import SchedulePanda from "@/components/SchedulePanda";
 
 interface Task {
   id: number;
@@ -229,11 +227,6 @@ const Schedule = () => {
 
   return (
     <div className="space-y-6 relative">
-      {/* Decorative panda */}
-      <div className="fixed bottom-10 right-10 z-10">
-        <PandaAnimation mood="reading" size="small" />
-      </div>
-      
       <motion.div 
         className="flex justify-between items-center"
         initial={{ opacity: 0, y: -20 }}
@@ -389,7 +382,6 @@ const Schedule = () => {
                 {new Date(date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
               </h2>
               <Card className="relative overflow-hidden">
-                <SchedulePanda />
                 <CardHeader>
                   <CardTitle className="flex items-center">
                     <Clock className="mr-2 h-5 w-5" /> Study Tasks

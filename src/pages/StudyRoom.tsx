@@ -1,5 +1,4 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,7 +9,8 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "@/components/ui/sonner";
 import { Users, Video, MessageSquare, Mic, ScreenShare, PhoneOff } from "lucide-react";
 import MusicPlayer from "@/components/MusicPlayer";
-import StudyRoomPanda from "@/components/StudyRoomPanda";
+import MessageList from "@/components/MessageList";
+import { motion } from "framer-motion";
 
 const StudyRoom = () => {
   const { roomId } = useParams<{ roomId: string }>();
@@ -48,10 +48,15 @@ const StudyRoom = () => {
   ];
 
   return (
-    <div className="container mx-auto py-6 relative">
-      {/* Decorative pandas */}
-      <StudyRoomPanda position="left" delay={0.5} />
-      <StudyRoomPanda position="right" delay={0.8} isActive={isInCall} />
+    <div className="container py-6 relative">
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <h1 className="text-3xl font-bold mb-2">{roomId}</h1>
+        <p className="text-muted-foreground mb-6">{participants.length} participants online in this study room</p>
+      </motion.div>
 
       <div className="flex justify-between items-center mb-6">
         <div>

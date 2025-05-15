@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
 import { toast } from "@/components/ui/sonner";
-import { Clock, Play, Pause, RefreshCw } from "lucide-react";
-import PandaAnimation from "@/components/PandaAnimation";
+import { Clock, Play, Pause, RefreshCw, RotateCcw, Check, Bell, BellOff } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 const Pomodoro = () => {
   // Max time 3 hours in seconds
@@ -156,7 +158,7 @@ const Pomodoro = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-transparent to-background dark:from-transparent dark:to-background/20 rounded-full opacity-0 dark:opacity-30"></div>
                 
                 {/* Enhanced PandaAnimation */}
-                <PandaAnimation mood={pandaMood} size="large" className="scale-150 mb-12 drop-shadow-xl" />
+                {/* <PandaAnimation mood={pandaMood} size="large" className="scale-150 mb-12 drop-shadow-xl" /> */}
               </div>
             </motion.div>
             

@@ -1,11 +1,9 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Clock } from "lucide-react";
-import PandaAnimation from "@/components/PandaAnimation";
+import { Clock, Timer } from "lucide-react";
 
 const PomodoroCard = () => {
   return (
@@ -26,12 +24,12 @@ const PomodoroCard = () => {
           </CardDescription>
         </CardHeader>
         <CardContent className="pt-6 px-6 flex flex-col items-center">
-          <div className="w-32 h-32 relative mb-4">
-            <PandaAnimation mood="reading" size="medium" />
+          <div className="w-32 h-32 relative mb-4 flex items-center justify-center">
+            <Timer className="h-20 w-20 text-primary/70" />
           </div>
           
           <p className="text-center text-sm text-gray-500 mb-4">
-            Use our cute Panda Pomodoro Timer to boost your productivity with scheduled focus and break sessions.
+            Use our Pomodoro Timer to boost your productivity with scheduled focus and break sessions.
           </p>
         </CardContent>
         <CardFooter className="pt-0 px-6 pb-6">
