@@ -15,6 +15,7 @@ import NotFound from "./pages/NotFound";
 import Schedule from "./pages/Schedule";
 import CreateRoom from "./pages/CreateRoom";
 import Pomodoro from "./pages/Pomodoro";
+import FlashCards from "./pages/FlashCards";
 import Layout from "./components/Layout";
 import TeddyAIChat from "./components/TeddyAIChat";
 import { motion, AnimatePresence } from "framer-motion";
@@ -142,6 +143,19 @@ const App = () => (
                   transition={pageTransition}
                 >
                   <Pomodoro />
+                </motion.div>
+              </Layout>
+            } />
+            <Route path="/flashcards" element={
+              <Layout>
+                <motion.div
+                  initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageVariants}
+                  transition={pageTransition}
+                >
+                  <FlashCards />
                 </motion.div>
               </Layout>
             } />

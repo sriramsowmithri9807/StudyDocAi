@@ -1,8 +1,7 @@
-
 import React from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
-import { Calendar, Book, Users, UserCircle, CalendarPlus, Clock } from "lucide-react";
+import { Calendar, Book, Users, UserCircle, CalendarPlus, Clock, Layers } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 
@@ -150,6 +149,22 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                       <NavigationMenuLink className={`${navigationMenuTriggerStyle()} ${location.pathname === '/pomodoro' ? 'bg-primary text-primary-foreground' : ''}`}>
                         <Clock className="mr-2 h-4 w-4" />
                         Pomodoro
+                      </NavigationMenuLink>
+                    </motion.div>
+                  </Link>
+                </NavigationMenuItem>
+              </motion.div>
+              
+              <motion.div variants={menuItemVariants}>
+                <NavigationMenuItem>
+                  <Link to="/flashcards">
+                    <motion.div 
+                      whileHover={{ scale: 1.05 }} 
+                      transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                    >
+                      <NavigationMenuLink className={`${navigationMenuTriggerStyle()} ${location.pathname === '/flashcards' ? 'bg-primary text-primary-foreground' : ''}`}>
+                        <Layers className="mr-2 h-4 w-4" />
+                        FlashCards
                       </NavigationMenuLink>
                     </motion.div>
                   </Link>
