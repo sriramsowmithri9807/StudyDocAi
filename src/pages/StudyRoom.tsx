@@ -9,8 +9,8 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "@/components/ui/sonner";
 import { Users, Video, MessageSquare, Mic, ScreenShare, PhoneOff } from "lucide-react";
 import MusicPlayer from "@/components/MusicPlayer";
-import MessageList from "@/components/MessageList";
 import { motion } from "framer-motion";
+import PandaAnimationBW from "@/components/PandaAnimationBW";
 
 const StudyRoom = () => {
   const { roomId } = useParams<{ roomId: string }>();
@@ -49,6 +49,8 @@ const StudyRoom = () => {
 
   return (
     <div className="container py-6 relative">
+      <PandaAnimationBW position="bottom-left" size="small" mood="happy" />
+      
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}

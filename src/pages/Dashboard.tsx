@@ -6,6 +6,7 @@ import { Calendar, Users, Book, CalendarPlus, Save } from "lucide-react";
 import { motion } from "framer-motion";
 import PomodoroCard from "@/components/PomodoroCard";
 import { toast } from "@/hooks/use-toast";
+import PandaAnimationBW from "@/components/PandaAnimationBW";
 
 const Dashboard = () => {
   // Animation variants
@@ -105,6 +106,8 @@ const Dashboard = () => {
 
   return (
     <div className="container px-4 py-8 relative">
+      <PandaAnimationBW position="bottom-right" size="medium" />
+      
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}

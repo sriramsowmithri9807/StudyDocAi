@@ -25,6 +25,7 @@ import { Progress } from "@/components/ui/progress";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import PandaAnimationBW from "@/components/PandaAnimationBW";
 
 const AIAssistant = () => {
   const [question, setQuestion] = useState("");
@@ -366,6 +367,8 @@ const AIAssistant = () => {
 
   return (
     <div className="space-y-6">
+      <PandaAnimationBW position="top-right" size="small" mood="reading" />
+      
       <div>
         <h1 className="text-3xl font-bold tracking-tight">AI Study Assistant</h1>
         <p className="text-gray-500">Powered by Llama LLM - Upload study materials and get AI-powered help</p>

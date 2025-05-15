@@ -9,6 +9,7 @@ import { Clock, Play, Pause, RefreshCw, RotateCcw, Check, Bell, BellOff } from "
 import { Progress } from "@/components/ui/progress";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import PandaAnimationBW from "@/components/PandaAnimationBW";
 
 const Pomodoro = () => {
   // Max time 3 hours in seconds
@@ -100,6 +101,8 @@ const Pomodoro = () => {
   
   return (
     <div className="min-h-[calc(100vh-16rem)] relative overflow-hidden">
+      <PandaAnimationBW position="center" size="large" mood="reading" className="opacity-30 z-0" />
+      
       {/* Forest Background with enhanced visibility for dark mode */}
       <div className="absolute inset-0 forest-bg opacity-20 dark:opacity-40 z-0 dark:bg-blend-luminosity"></div>
       
