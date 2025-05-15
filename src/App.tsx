@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import StudyRoom from "./pages/StudyRoom";
 import AIAssistant from "./pages/AIAssistant";
 import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import Schedule from "./pages/Schedule";
@@ -149,6 +150,17 @@ const App = () => (
                 transition={pageTransition}
               >
                 <Login />
+              </motion.div>
+            } />
+            <Route path="/signup" element={
+              <motion.div
+                initial="initial"
+                animate="in"
+                exit="out"
+                variants={pageVariants}
+                transition={pageTransition}
+              >
+                <SignUp />
               </motion.div>
             } />
             <Route path="/profile" element={
