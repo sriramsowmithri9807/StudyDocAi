@@ -18,6 +18,8 @@ import Pomodoro from "./pages/Pomodoro";
 import Layout from "./components/Layout";
 import TeddyAIChat from "./components/TeddyAIChat";
 import { motion, AnimatePresence } from "framer-motion";
+import { SpeedInsights } from "@vercel/speed-insights/react";
+import { Analytics } from "@vercel/analytics/react";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +50,8 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <SpeedInsights />
+        <Analytics />
         <AnimatePresence mode="wait">
           <Routes>
             <Route path="/" element={
