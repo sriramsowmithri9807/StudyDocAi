@@ -18,6 +18,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import PandaAnimationBW from "@/components/PandaAnimationBW";
+import TeddyBearAnimation from "@/components/TeddyBearAnimation";
 
 interface Task {
   id: number;
@@ -229,6 +230,7 @@ const Schedule = () => {
   return (
     <div className="space-y-6 relative">
       <PandaAnimationBW position="top-left" size="small" mood="walking" />
+      <TeddyBearAnimation position="bottom-left" size="small" />
       
       <motion.div 
         className="flex justify-between items-center"

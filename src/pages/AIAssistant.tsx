@@ -26,6 +26,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import PandaAnimationBW from "@/components/PandaAnimationBW";
+import TeddyBearAnimation from "@/components/TeddyBearAnimation";
 
 const AIAssistant = () => {
   const [question, setQuestion] = useState("");
@@ -366,8 +367,9 @@ const AIAssistant = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <PandaAnimationBW position="top-right" size="small" mood="reading" />
+    <div className="container py-6 relative">
+      <PandaAnimationBW position="bottom-right" size="small" mood="reading" />
+      <TeddyBearAnimation position="top-left" size="small" />
       
       <div>
         <h1 className="text-3xl font-bold tracking-tight">AI Study Assistant</h1>

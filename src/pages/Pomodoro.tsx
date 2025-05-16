@@ -10,6 +10,7 @@ import { Progress } from "@/components/ui/progress";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import PandaAnimationBW from "@/components/PandaAnimationBW";
+import TeddyBearAnimation from "@/components/TeddyBearAnimation";
 
 const Pomodoro = () => {
   // Max time 3 hours in seconds
@@ -114,7 +115,7 @@ const Pomodoro = () => {
     <div className="min-h-[calc(100vh-16rem)] relative overflow-hidden">
       {/* Custom positioned and sized giant panda */}
       <motion.div 
-        className="absolute inset-0 flex items-center justify-center z-0"
+        className="absolute inset-0 flex items-center justify-center z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
@@ -123,8 +124,12 @@ const Pomodoro = () => {
           mood={pandaMood} 
           className="opacity-40 hover:opacity-60" 
           position="center"
+          size="large"
         />
       </motion.div>
+      
+      {/* Teddy bear animation */}
+      <TeddyBearAnimation position="top-right" size="small" className="opacity-80" />
       
       {/* Forest Background with enhanced visibility for dark mode */}
       <div className="absolute inset-0 forest-bg opacity-20 dark:opacity-40 z-0 dark:bg-blend-luminosity"></div>
@@ -134,7 +139,7 @@ const Pomodoro = () => {
       
       {/* Animated leaves and elements with enhanced visibility */}
       <motion.div 
-        className="absolute top-10 right-10 text-green-700 dark:text-green-500 opacity-70 z-0"
+        className="absolute top-10 right-10 text-green-700 dark:text-green-500 opacity-70 z-5"
         variants={leafVariants}
         animate="wave"
       >
@@ -144,7 +149,7 @@ const Pomodoro = () => {
       </motion.div>
       
       <motion.div 
-        className="absolute bottom-10 left-10 text-green-700 dark:text-green-500 opacity-70 z-0"
+        className="absolute bottom-10 left-10 text-green-700 dark:text-green-500 opacity-70 z-5"
         variants={leafVariants}
         animate="wave"
         initial={{ rotate: 180 }}
@@ -154,7 +159,7 @@ const Pomodoro = () => {
         </svg>
       </motion.div>
       
-      <div className="container px-4 py-16 relative z-10">
+      <div className="container px-4 py-16 relative z-20">
         <div className="flex flex-col items-center">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}

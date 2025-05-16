@@ -11,6 +11,7 @@ import { Users, Video, MessageSquare, Mic, ScreenShare, PhoneOff } from "lucide-
 import MusicPlayer from "@/components/MusicPlayer";
 import { motion } from "framer-motion";
 import PandaAnimationBW from "@/components/PandaAnimationBW";
+import TeddyBearAnimation from "@/components/TeddyBearAnimation";
 
 const StudyRoom = () => {
   const { roomId } = useParams<{ roomId: string }>();
@@ -50,6 +51,7 @@ const StudyRoom = () => {
   return (
     <div className="container py-6 relative">
       <PandaAnimationBW position="bottom-left" size="small" mood="happy" />
+      <TeddyBearAnimation position="top-right" size="small" />
       
       <motion.div
         initial={{ opacity: 0, y: -10 }}

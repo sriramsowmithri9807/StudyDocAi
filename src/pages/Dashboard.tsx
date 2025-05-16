@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import PomodoroCard from "@/components/PomodoroCard";
 import { toast } from "@/hooks/use-toast";
 import PandaAnimationBW from "@/components/PandaAnimationBW";
+import TeddyBearAnimation from "@/components/TeddyBearAnimation";
 
 const Dashboard = () => {
   // Animation variants
@@ -107,6 +108,7 @@ const Dashboard = () => {
   return (
     <div className="container px-4 py-8 relative">
       <PandaAnimationBW position="bottom-right" size="medium" />
+      <TeddyBearAnimation position="top-left" size="small" />
       
       <motion.div
         initial={{ opacity: 0, y: -20 }}

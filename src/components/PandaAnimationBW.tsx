@@ -18,7 +18,7 @@ const PandaAnimationBW = ({
   const sizeConfig = {
     small: { width: 80, height: 80 },
     medium: { width: 120, height: 120 },
-    large: { width: 160, height: 160 },
+    large: { width: 200, height: 200 },
   };
 
   // Position configurations
@@ -73,7 +73,7 @@ const PandaAnimationBW = ({
 
   return (
     <motion.div
-      className={`fixed ${positionConfig[position]} z-10 ${className}`}
+      className={`absolute ${positionConfig[position]} ${className}`}
       variants={pandaVariants}
       animate={{
         ...pandaVariants[mood],
